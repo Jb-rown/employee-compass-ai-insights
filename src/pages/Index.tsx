@@ -6,7 +6,18 @@ import Footer from "@/components/Footer";
 import FeatureCard from "@/components/FeatureCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import StatsCard from "@/components/StatsCard";
-import { ArrowRight, BarChart2, BrainCircuit, ClipboardCheck, Database, Lightbulb, LineChart, UserCog, Users } from "lucide-react";
+import HeroAnimation from "@/components/HeroAnimation";
+import { 
+  ArrowRight, 
+  BarChart2, 
+  BrainCircuit, 
+  ClipboardCheck, 
+  Database, 
+  Lightbulb, 
+  LineChart, 
+  UserCog, 
+  Users 
+} from "lucide-react";
 
 const Index = () => {
   return (
@@ -18,17 +29,20 @@ const Index = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 heading-gradient">
+              <span className="inline-block px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full mb-4">
+                AI-Powered Employee Retention
+              </span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 heading-gradient animate-fade-in">
                 Predict and Prevent Employee Turnover
               </h1>
               <p className="text-lg md:text-xl text-foreground/80 mb-8 max-w-xl mx-auto lg:mx-0">
                 Use data-driven insights and AI to identify at-risk employees and implement effective retention strategies.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button asChild size="lg" className="text-md px-8">
+                <Button asChild size="lg" className="text-md px-8 hover-scale">
                   <Link to="/signup">Get Started</Link>
                 </Button>
-                <Button asChild variant="outline" size="lg" className="text-md px-8">
+                <Button asChild variant="outline" size="lg" className="text-md px-8 hover-scale">
                   <Link to="/dashboard">View Demo</Link>
                 </Button>
               </div>
@@ -41,6 +55,7 @@ const Index = () => {
                   alt="HR team analyzing data" 
                   className="rounded-xl shadow-xl w-full h-auto object-cover animate-float" 
                 />
+                <HeroAnimation />
               </div>
             </div>
           </div>
@@ -50,39 +65,49 @@ const Index = () => {
       {/* Stats Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto max-w-6xl px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Transforming Employee Retention</h2>
+          <h2 className="text-3xl font-bold text-center mb-4">Transforming Employee Retention</h2>
+          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+            Our AI-powered platform has helped hundreds of companies improve their employee retention rates.
+          </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <StatsCard 
               icon={<Users size={20} />} 
               title="Average Retention Improvement" 
               value="24%" 
               trend={{ value: "5% vs. industry", positive: true }}
+              className="hover-scale"
             />
             <StatsCard 
               icon={<Database size={20} />} 
               title="Employee Records Analyzed" 
               value="1.2M+"
+              className="hover-scale"
             />
             <StatsCard 
               icon={<BarChart2 size={20} />} 
               title="Prediction Accuracy" 
               value="94.7%" 
               trend={{ value: "2.3% this quarter", positive: true }}
+              className="hover-scale"
             />
             <StatsCard 
               icon={<Lightbulb size={20} />} 
               title="Custom AI Insights Generated" 
               value="10K+" 
+              className="hover-scale"
             />
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-secondary/30 px-4">
+      <section id="features" className="py-16 bg-secondary/30 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Key Features</h2>
+            <span className="inline-block px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full mb-4">
+              Key Features
+            </span>
+            <h2 className="text-3xl font-bold mb-4">How It Works</h2>
             <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
               Our platform combines powerful analytics with AI to help you understand, predict, and improve employee retention.
             </p>
@@ -122,10 +147,57 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-16 bg-white px-4">
+      {/* How It Works Section */}
+      <section id="how-it-works" className="py-16 bg-white px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
+            <span className="inline-block px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full mb-4">
+              Process
+            </span>
+            <h2 className="text-3xl font-bold mb-4">Our Approach</h2>
+            <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
+              A simple three-step process to transform your employee retention strategy
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-secondary/20 hover-scale">
+              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary mb-4">
+                <span className="text-xl font-bold">1</span>
+              </div>
+              <h3 className="text-xl font-bold mb-2">Upload Your Data</h3>
+              <p className="text-muted-foreground">
+                Connect your HRIS or upload employee data files to our secure platform.
+              </p>
+            </div>
+            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-secondary/20 hover-scale">
+              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary mb-4">
+                <span className="text-xl font-bold">2</span>
+              </div>
+              <h3 className="text-xl font-bold mb-2">Get AI Insights</h3>
+              <p className="text-muted-foreground">
+                Our AI analyzes patterns and predicts which employees are at risk of leaving.
+              </p>
+            </div>
+            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-secondary/20 hover-scale">
+              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary mb-4">
+                <span className="text-xl font-bold">3</span>
+              </div>
+              <h3 className="text-xl font-bold mb-2">Implement Strategies</h3>
+              <p className="text-muted-foreground">
+                Follow personalized retention plans for each at-risk employee.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-16 bg-secondary/30 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <span className="inline-block px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full mb-4">
+              Testimonials
+            </span>
             <h2 className="text-3xl font-bold mb-4">What Our Clients Say</h2>
             <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
               HR professionals are transforming their retention strategies with our platform.
@@ -161,11 +233,16 @@ const Index = () => {
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
             Join hundreds of companies using Employee Compass to reduce turnover and build stronger teams.
           </p>
-          <Button asChild size="lg" variant="secondary" className="px-8 text-primary">
-            <Link to="/signup" className="flex items-center gap-2">
-              Get Started Today <ArrowRight size={16} />
-            </Link>
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" variant="secondary" className="px-8 text-primary hover-scale">
+              <Link to="/signup" className="flex items-center gap-2">
+                Get Started Today <ArrowRight size={16} />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white/10 hover-scale">
+              <Link to="/dashboard">Try Demo</Link>
+            </Button>
+          </div>
         </div>
       </section>
       
