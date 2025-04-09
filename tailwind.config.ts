@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,29 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Custom colors for Employee Compass
+				retention: {
+					100: "#E0F7FA",
+					200: "#B2EBF2",
+					300: "#80DEEA",
+					400: "#4DD0E1",
+					500: "#26C6DA",
+					600: "#00ACC1",
+					700: "#0097A7",
+					800: "#00838F",
+					900: "#006064"
+				},
+				insight: {
+					100: "#E1F5FE",
+					200: "#B3E5FC",
+					300: "#81D4FA",
+					400: "#4FC3F7",
+					500: "#29B6F6",
+					600: "#03A9F4",
+					700: "#039BE5",
+					800: "#0288D1",
+					900: "#01579B"
 				}
 			},
 			borderRadius: {
@@ -84,11 +108,21 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-slow': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.8' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-slow': 'pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+				'float': 'float 5s ease-in-out infinite'
 			}
 		}
 	},
