@@ -4,15 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle, AlertCircle, Clock } from "lucide-react";
-
-type Upload = {
-  id: string;
-  filename: string;
-  row_count: number;
-  status: string;
-  created_at: string;
-  [key: string]: any;
-};
+import { Upload } from "@/types/database";
 
 interface RecentUploadsProps {
   uploads: Upload[];
@@ -75,7 +67,7 @@ const RecentUploads = ({ uploads, isLoading }: RecentUploadsProps) => {
                 <span className="ml-2 capitalize">{upload.status}</span>
               </TableCell>
               <TableCell>
-                {formatDistanceToNow(new Date(upload.created_at), { addSuffix: true })}
+                {formatDistanceToNow(new Date(upload.created_at || ''), { addSuffix: true })}
               </TableCell>
             </TableRow>
           ))}

@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { Upload as UploadType } from "@/types/database";
 
 const DataUpload = () => {
   const { user } = useAuth();
@@ -59,7 +60,7 @@ const DataUpload = () => {
           filename: file.name,
           row_count: Math.floor(Math.random() * 100) + 10, // Mock row count
           status: 'completed'
-        });
+        } as UploadType);
       
       if (error) throw error;
       

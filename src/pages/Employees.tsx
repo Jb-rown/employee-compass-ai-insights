@@ -12,6 +12,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import AddEmployeeDialog from "@/components/AddEmployeeDialog";
+import { Employee } from "@/types/database";
+import { toast } from "sonner";
 
 const Employees = () => {
   const { user } = useAuth();
@@ -21,13 +23,19 @@ const Employees = () => {
   const { data: employees = [], isLoading, refetch } = useQuery({
     queryKey: ['employees'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('employees')
-        .select('*')
-        .order('last_name', { ascending: true });
-      
-      if (error) throw error;
-      return data || [];
+      try {
+        const { data, error } = await supabase
+          .from('employees')
+          .select('*')
+          .order('last_name', { ascending: true });
+        
+        if (error) throw error;
+        return data as Employee[] || [];
+      } catch (error) {
+        console.error("Error fetching employees:", error);
+        toast.error("Failed to fetch employee data");
+        return [] as Employee[];
+      }
     }
   });
 
@@ -39,7 +47,7 @@ const Employees = () => {
       (emp.position && emp.position.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-  const handleAddEmployee = async (newEmployee: any) => {
+  const handleAddEmployee = async (newEmployee: Partial<Employee>) => {
     try {
       const { data, error } = await supabase
         .from('employees')
@@ -53,9 +61,11 @@ const Employees = () => {
         
       if (error) throw error;
       refetch();
-      return data;
+      toast.success("Employee added successfully");
+      return data as Employee[];
     } catch (error) {
       console.error("Error adding employee:", error);
+      toast.error("Failed to add employee");
       throw error;
     }
   };

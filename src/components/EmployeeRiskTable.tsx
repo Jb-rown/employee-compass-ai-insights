@@ -2,16 +2,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-
-type Employee = {
-  id: string;
-  first_name: string;
-  last_name: string;
-  department: string | null;
-  position: string | null;
-  risk_score: number | null;
-  [key: string]: any;
-};
+import { Employee } from "@/types/database";
 
 interface EmployeeRiskTableProps {
   employees: Employee[];

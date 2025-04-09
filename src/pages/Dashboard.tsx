@@ -15,6 +15,8 @@ import RecentUploads from "@/components/RecentUploads";
 import { supabase } from "@/integrations/supabase/client";
 import { ChartContainer } from "@/components/ui/chart";
 import DepartmentChart from "@/components/DepartmentChart";
+import { Employee, Upload } from "@/types/database";
+import { toast } from "sonner";
 
 const Dashboard = () => {
   const { user, signOut } = useAuth();
@@ -23,27 +25,39 @@ const Dashboard = () => {
   const { data: employeesData, isLoading: employeesLoading } = useQuery({
     queryKey: ['employees'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('employees')
-        .select('*')
-        .order('risk_score', { ascending: false });
-      
-      if (error) throw error;
-      return data || [];
+      try {
+        const { data, error } = await supabase
+          .from('employees')
+          .select('*')
+          .order('risk_score', { ascending: false });
+        
+        if (error) throw error;
+        return data as Employee[] || [];
+      } catch (error) {
+        console.error("Error fetching employees:", error);
+        toast.error("Failed to fetch employee data");
+        return [] as Employee[];
+      }
     }
   });
 
   const { data: uploadsData, isLoading: uploadsLoading } = useQuery({
     queryKey: ['uploads'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('data_uploads')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(5);
-      
-      if (error) throw error;
-      return data || [];
+      try {
+        const { data, error } = await supabase
+          .from('data_uploads')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(5);
+        
+        if (error) throw error;
+        return data as Upload[] || [];
+      } catch (error) {
+        console.error("Error fetching uploads:", error);
+        toast.error("Failed to fetch upload data");
+        return [] as Upload[];
+      }
     }
   });
 

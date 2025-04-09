@@ -1,13 +1,7 @@
 
 import { useMemo } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
-
-type Employee = {
-  id: string;
-  department: string | null;
-  risk_score: number | null;
-  [key: string]: any;
-};
+import { Employee } from "@/types/database";
 
 interface DepartmentChartProps {
   employees: Employee[];
