@@ -49,14 +49,19 @@ const Employees = () => {
 
   const handleAddEmployee = async (newEmployee: Partial<Employee>) => {
     try {
+      // Ensure required fields are present
+      if (!newEmployee.first_name || !newEmployee.last_name) {
+        throw new Error("First name and last name are required");
+      }
+      
       const { data, error } = await supabase
         .from('employees')
-        .insert([
-          { 
-            ...newEmployee,
-            user_id: user!.id 
-          }
-        ])
+        .insert({
+          ...newEmployee,
+          user_id: user!.id,
+          first_name: newEmployee.first_name,
+          last_name: newEmployee.last_name
+        })
         .select();
         
       if (error) throw error;

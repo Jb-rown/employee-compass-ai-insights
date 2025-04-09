@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Users, BarChart3, Upload, AlertCircle } from "lucide-react";
+import { Users, BarChart3, UploadIcon, AlertCircle } from "lucide-react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import DashboardLayout from "@/components/DashboardLayout";
@@ -78,7 +78,7 @@ const Dashboard = () => {
           <h1 className="text-3xl font-bold">Dashboard</h1>
           <div className="flex gap-4">
             <Button onClick={() => navigate("/upload")} variant="outline" className="gap-2">
-              <Upload size={16} /> Upload Data
+              <UploadIcon size={16} /> Upload Data
             </Button>
             <Button onClick={handleSignOut} variant="outline">
               Sign Out
