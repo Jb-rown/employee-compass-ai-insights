@@ -17,6 +17,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           <NavItem to="/dashboard" icon={<LayoutDashboard size={18} />} label="Dashboard" />
           <NavItem to="/employees" icon={<Users size={18} />} label="Employees" />
           <NavItem to="/upload" icon={<Upload size={18} />} label="Upload Data" />
+          <NavItem to="/admin/settings" icon={<Settings size={18} />} label="Admin/Settings" />
         </div>
       </aside>
       <main className="flex-1 py-8 px-4">

@@ -10,6 +10,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Employees from "./pages/Employees";
+import EmployeeProfile from "./pages/EmployeeProfile";
+import AdminSettings from "./pages/AdminSettings";
 import DataUpload from "./pages/DataUpload";
 import About from "./pages/About";
 import Features from "./pages/Features";
@@ -38,6 +40,8 @@ const App = () => (
             <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/employees" element={<ProtectedRoute><Employees /></ProtectedRoute>} />
+            <Route path="/employee/:id" element={<ProtectedRoute><EmployeeProfile /></ProtectedRoute>} />
+            <Route path="/admin/settings" element={<ProtectedRoute><AdminSettings /></ProtectedRoute>} />
             <Route path="/upload" element={<ProtectedRoute><DataUpload /></ProtectedRoute>} />
             
             {/* Footer linked pages */}
