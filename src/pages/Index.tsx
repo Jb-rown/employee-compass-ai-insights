@@ -1,5 +1,6 @@
 
 import { Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
@@ -15,11 +16,51 @@ import {
   Database, 
   Lightbulb, 
   LineChart, 
+  UploadCloud, 
   UserCog, 
   Users 
 } from "lucide-react";
 
 const Index = () => {
+  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+
+  // Smooth scroll to section when clicking anchor links
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Reveal animations on scroll
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const handleIntersect = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, observerOptions);
+    
+    // Observe all elements with reveal class
+    document.querySelectorAll('.reveal').forEach(element => {
+      observer.observe(element);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
@@ -29,16 +70,16 @@ const Index = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
-              <span className="inline-block px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full mb-4">
+              <span className="inline-block px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full mb-4 animate-fade-in">
                 AI-Powered Employee Retention
               </span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 heading-gradient animate-fade-in">
                 Predict and Prevent Employee Turnover
               </h1>
-              <p className="text-lg md:text-xl text-foreground/80 mb-8 max-w-xl mx-auto lg:mx-0">
+              <p className="text-lg md:text-xl text-foreground/80 mb-8 max-w-xl mx-auto lg:mx-0 animate-fade-in" style={{ animationDelay: '0.2s' }}>
                 Use data-driven insights and AI to identify at-risk employees and implement effective retention strategies.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in" style={{ animationDelay: '0.4s' }}>
                 <Button asChild size="lg" className="text-md px-8 hover-scale">
                   <Link to="/signup">Get Started</Link>
                 </Button>
@@ -48,7 +89,7 @@ const Index = () => {
               </div>
             </div>
             <div className="hidden lg:block">
-              <div className="relative">
+              <div className="relative animate-fade-in" style={{ animationDelay: '0.6s' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-retention-500/20 rounded-xl"></div>
                 <img 
                   src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?q=80&w=3432&auto=format&fit=crop" 
@@ -63,7 +104,7 @@ const Index = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white reveal fade-bottom">
         <div className="container mx-auto max-w-6xl px-4">
           <h2 className="text-3xl font-bold text-center mb-4">Transforming Employee Retention</h2>
           <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
@@ -101,7 +142,7 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-16 bg-secondary/30 px-4">
+      <section id="features" className="py-16 bg-secondary/30 px-4 reveal fade-bottom">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <span className="inline-block px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full mb-4">
@@ -139,7 +180,7 @@ const Index = () => {
               description="Visualize key metrics and trends with customizable charts and reports."
             />
             <FeatureCard 
-              icon={<Database size={24} />}
+              icon={<UploadCloud size={24} />}
               title="Data Integration"
               description="Easily upload and integrate with your existing HR systems and employee data."
             />
@@ -148,7 +189,7 @@ const Index = () => {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-16 bg-white px-4">
+      <section id="how-it-works" className="py-16 bg-white px-4 reveal fade-bottom">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <span className="inline-block px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full mb-4">
@@ -160,7 +201,7 @@ const Index = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-secondary/20 hover-scale">
+            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-secondary/20 hover-scale reveal fade-right" style={{ transitionDelay: '0.1s' }}>
               <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary mb-4">
                 <span className="text-xl font-bold">1</span>
               </div>
@@ -169,7 +210,7 @@ const Index = () => {
                 Connect your HRIS or upload employee data files to our secure platform.
               </p>
             </div>
-            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-secondary/20 hover-scale">
+            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-secondary/20 hover-scale reveal fade-right" style={{ transitionDelay: '0.3s' }}>
               <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary mb-4">
                 <span className="text-xl font-bold">2</span>
               </div>
@@ -178,7 +219,7 @@ const Index = () => {
                 Our AI analyzes patterns and predicts which employees are at risk of leaving.
               </p>
             </div>
-            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-secondary/20 hover-scale">
+            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-secondary/20 hover-scale reveal fade-right" style={{ transitionDelay: '0.5s' }}>
               <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary mb-4">
                 <span className="text-xl font-bold">3</span>
               </div>
@@ -192,7 +233,7 @@ const Index = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 bg-secondary/30 px-4">
+      <section className="py-16 bg-secondary/30 px-4 reveal fade-bottom">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <span className="inline-block px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full mb-4">
@@ -227,7 +268,7 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-primary px-4">
+      <section className="py-16 bg-primary px-4 reveal fade-bottom">
         <div className="container mx-auto max-w-6xl text-center">
           <h2 className="text-3xl font-bold text-white mb-6">Ready to Improve Your Employee Retention?</h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">

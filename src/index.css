@@ -93,6 +93,10 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @layer components {
@@ -114,6 +118,17 @@
   
   .animate-fade-in {
     animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .section-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .section-fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -138,4 +153,39 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Add reveal animation classes */
+.reveal {
+  position: relative;
+  opacity: 0;
+  transition: all 0.8s ease-in-out;
+}
+
+.reveal.active {
+  opacity: 1;
+}
+
+.reveal.fade-bottom {
+  transform: translateY(50px);
+}
+
+.reveal.fade-bottom.active {
+  transform: translateY(0);
+}
+
+.reveal.fade-left {
+  transform: translateX(-100px);
+}
+
+.reveal.fade-left.active {
+  transform: translateX(0);
+}
+
+.reveal.fade-right {
+  transform: translateX(100px);
+}
+
+.reveal.fade-right.active {
+  transform: translateX(0);
 }
