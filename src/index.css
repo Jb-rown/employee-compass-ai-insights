@@ -130,6 +130,11 @@
     opacity: 1;
     transform: translateY(0);
   }
+  
+  /* Social media icon hover animation */
+  .social-icon-hover {
+    @apply transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 hover:text-primary;
+  }
 }
 
 @keyframes float {
@@ -188,4 +193,9 @@
 
 .reveal.fade-right.active {
   transform: translateX(0);
+}
+
+/* Footer specific animations */
+.footer-link {
+  @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
 }
