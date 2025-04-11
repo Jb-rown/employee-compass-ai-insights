@@ -2,7 +2,7 @@
 import React from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
-import { Shield, Lock, Server, FileCheck, Certificate, Users } from "lucide-react";
+import { Shield, Lock, Server, FileCheck, Award, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -107,7 +107,7 @@ const Security = () => {
               
               <div className="bg-card p-6 rounded-lg shadow border border-border hover-scale">
                 <div className="text-primary p-3 bg-primary/10 rounded-full w-fit mb-4">
-                  <Certificate size={24} />
+                  <Award size={24} />
                 </div>
                 <h3 className="text-xl font-bold mb-3">Regular Audits</h3>
                 <p className="text-muted-foreground">
