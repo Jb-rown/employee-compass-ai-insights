@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,9 +11,10 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import DashboardLayout from "@/components/DashboardLayout";
 import { toast } from "sonner";
-import { Trash2, Plus, Edit, RefreshCw, UserPlus, Building } from "lucide-react";
+import { Trash2, Plus, Edit, RefreshCw, UserPlus, Building, Users } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Department, RiskThreshold, UserPermission } from "@/types/admin";
+import { Link } from "react-router-dom";
 
 const AdminSettings = () => {
   const [newDepartment, setNewDepartment] = React.useState("");
@@ -186,7 +186,12 @@ const AdminSettings = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex justify-end mb-4">
+                <div className="flex justify-between mb-4">
+                  <Link to="/admin/users">
+                    <Button variant="outline" className="gap-2">
+                      <Users size={16} /> Advanced User Management
+                    </Button>
+                  </Link>
                   <Button className="gap-2">
                     <Plus size={16} /> Add User
                   </Button>

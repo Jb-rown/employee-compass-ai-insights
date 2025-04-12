@@ -1,7 +1,6 @@
-
 import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Users, Upload, Settings } from "lucide-react";
+import { LayoutDashboard, Users, Upload, Settings, LineChart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface DashboardLayoutProps {
@@ -16,6 +15,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           <h2 className="text-lg font-semibold mb-4">Navigation</h2>
           <NavItem to="/dashboard" icon={<LayoutDashboard size={18} />} label="Dashboard" />
           <NavItem to="/employees" icon={<Users size={18} />} label="Employees" />
+          <NavItem to="/predict" icon={<LineChart size={18} />} label="Predict Retention" />
           <NavItem to="/upload" icon={<Upload size={18} />} label="Upload Data" />
           <NavItem to="/admin/settings" icon={<Settings size={18} />} label="Admin/Settings" />
         </div>
