@@ -1,30 +1,25 @@
 export interface Employee {
   id: string;
   user_id: string;
-  first_name: string;
-  last_name: string;
+  name: string;
   email?: string;
   department?: string;
   position?: string;
   hire_date?: string;
-  join_date?: string;  // Date when employee joined
-  leave_date?: string; // Date when employee left (if applicable)
-  salary?: number;
   risk_score?: number;
+  risk_level?: string;
   created_at?: string;
   updated_at?: string;
-  last_evaluation_date?: string; // Date of the last evaluation
-  next_evaluation_date?: string; // Date of the next scheduled evaluation
 }
 
 export interface Upload {
   id: string;
   user_id: string;
-  filename: string;
-  row_count: number;
+  file_name: string;
+  file_size?: number;
+  records_count?: number;
   status: string;
-  created_at?: string;
-  updated_at?: string;
+  upload_date?: string;
 }
 
 export interface Notification {

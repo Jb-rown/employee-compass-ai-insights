@@ -13,6 +13,8 @@ interface UserProfile {
   id: string;
   role: 'admin' | 'hr' | 'user';
   email: string;
+  first_name: string | null;
+  last_name: string | null;
   created_at: string;
 }
 
@@ -58,10 +60,16 @@ export function UserRoleManager() {
   // Update user role mutation
   const updateRoleMutation = useMutation({
     mutationFn: async ({ userId, newRole }: { userId: string; newRole: 'admin' | 'hr' | 'user' }) => {
+      // First, remove all existing roles for the user
+      await supabase
+        .from('user_roles')
+        .delete()
+        .eq('user_id', userId);
+      
+      // Then insert the new role
       const { error } = await supabase
-        .from('profiles')
-        .update({ role: newRole })
-        .eq('id', userId);
+        .from('user_roles')
+        .insert({ user_id: userId, role: newRole });
       
       if (error) throw error;
     },
@@ -140,7 +148,16 @@ export function UserRoleManager() {
           <TableBody>
             {users && users.map((userProfile) => (
               <TableRow key={userProfile.id}>
-                <TableCell>{userProfile.email}</TableCell>
+                <TableCell>
+                  <div>
+                    <div>{userProfile.email}</div>
+                    {(userProfile.first_name || userProfile.last_name) && (
+                      <div className="text-sm text-muted-foreground">
+                        {[userProfile.first_name, userProfile.last_name].filter(Boolean).join(' ')}
+                      </div>
+                    )}
+                  </div>
+                </TableCell>
                 <TableCell>
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                     userProfile.role === 'admin' 
