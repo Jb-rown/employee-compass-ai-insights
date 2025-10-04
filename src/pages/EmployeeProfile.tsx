@@ -225,7 +225,7 @@ const EmployeeProfile = () => {
                 <TabsContent value="predictions">
                   <div className="space-y-6">
                     <div className="h-[300px]">
-                      <ChartContainer>
+                      <ChartContainer config={{}}>
                         <ResponsiveContainer width="100%" height="100%">
                           <RechartsLineChart data={riskChartData}>
                             <CartesianGrid strokeDasharray="3 3" />
@@ -278,7 +278,7 @@ const EmployeeProfile = () => {
                 <TabsContent value="performance">
                   <div className="space-y-6">
                     <div className="h-[300px]">
-                      <ChartContainer>
+                      <ChartContainer config={{}}>
                         <ResponsiveContainer width="100%" height="100%">
                           <RechartsLineChart data={performanceChartData}>
                             <CartesianGrid strokeDasharray="3 3" />

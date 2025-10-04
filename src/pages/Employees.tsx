@@ -37,7 +37,7 @@ const Employees = () => {
         const { data, error } = await supabase
           .from('employees')
           .select('*')
-          .order('last_name', { ascending: true });
+          .order('name', { ascending: true });
         
         if (error) throw error;
         return data as Employee[] || [];
@@ -144,10 +144,16 @@ const Employees = () => {
       
       const { data, error } = await supabase
         .from('employees')
-        .insert({
-          ...newEmployee,
+        .insert([{
+          name: newEmployee.name,
+          email: newEmployee.email,
+          department: newEmployee.department,
+          position: newEmployee.position,
+          hire_date: newEmployee.hire_date,
+          risk_score: newEmployee.risk_score,
+          risk_level: newEmployee.risk_level,
           user_id: user!.id
-        })
+        }])
         .select();
         
       if (error) throw error;

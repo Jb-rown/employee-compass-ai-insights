@@ -28,58 +28,58 @@ export function UserRoleManager() {
     queryFn: async (): Promise<UserProfile[]> => {
       if (!isAdmin) return [];
       
-      // Get all user roles with profile data
-      const { data: userRoles, error: rolesError } = await supabase
-        .from('user_roles')
-        .select(`
-          user_id,
-          role,
-          created_at
-        `)
-        .order('created_at', { ascending: false });
-      
-      if (rolesError) throw rolesError;
-      
-      // Get profiles
-      const { data: profiles } = await supabase
-        .from('profiles')
-        .select('id, first_name, last_name');
+      try {
+        // Get all user roles with profile data
+        const { data: userRoles, error: rolesError } = await supabase
+          .from('user_roles')
+          .select(`
+            user_id,
+            role,
+            created_at
+          `)
+          .order('created_at', { ascending: false });
         
-      // Get auth users for emails
-      const { data: { users: authUsers } } = await supabase.auth.admin.listUsers();
-      
-      const profileMap = new Map<string, any>();
-      profiles?.forEach(p => {
-        if (p.id) profileMap.set(p.id, p);
-      });
-      
-      const emailMap = new Map<string, string>();
-      authUsers?.forEach(u => {
-        if (u.id && u.email) emailMap.set(u.id, u.email);
-      });
-      
-      // Map to unique users (highest privilege role)
-      const userMap = new Map<string, UserProfile>();
-      
-      userRoles?.forEach(userRole => {
-        const existing = userMap.get(userRole.user_id);
-        const profile = profileMap.get(userRole.user_id);
+        if (rolesError) throw rolesError;
+        if (!userRoles || userRoles.length === 0) return [];
         
-        if (!existing || 
-            (userRole.role === 'admin') ||
-            (userRole.role === 'hr' && existing.role !== 'admin')) {
-          userMap.set(userRole.user_id, {
-            id: userRole.user_id,
-            role: userRole.role as 'admin' | 'hr' | 'user',
-            email: emailMap.get(userRole.user_id) || 'unknown@example.com',
-            first_name: profile?.first_name || null,
-            last_name: profile?.last_name || null,
-            created_at: userRole.created_at
-          });
-        }
-      });
-      
-      return Array.from(userMap.values());
+        // Get profiles
+        const { data: profiles, error: profilesError } = await supabase
+          .from('profiles')
+          .select('id, first_name, last_name');
+        
+        if (profilesError) console.error('Error fetching profiles:', profilesError);
+        
+        const profileMap = new Map<string, { first_name: string | null; last_name: string | null }>();
+        profiles?.forEach(p => {
+          if (p.id) profileMap.set(p.id, { first_name: p.first_name, last_name: p.last_name });
+        });
+        
+        // Map to unique users (highest privilege role)
+        const userMap = new Map<string, UserProfile>();
+        
+        userRoles.forEach(userRole => {
+          const existing = userMap.get(userRole.user_id);
+          const profile = profileMap.get(userRole.user_id);
+          
+          if (!existing || 
+              (userRole.role === 'admin') ||
+              (userRole.role === 'hr' && existing.role !== 'admin')) {
+            userMap.set(userRole.user_id, {
+              id: userRole.user_id,
+              role: userRole.role as 'admin' | 'hr' | 'user',
+              email: 'user@example.com', // Email not directly accessible
+              first_name: profile?.first_name || null,
+              last_name: profile?.last_name || null,
+              created_at: userRole.created_at
+            });
+          }
+        });
+        
+        return Array.from(userMap.values());
+      } catch (err) {
+        console.error('Error in queryFn:', err);
+        return [];
+      }
     },
     enabled: !!isAdmin,
     staleTime: 1000 * 60 * 5,
