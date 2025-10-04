@@ -23,9 +23,7 @@ const DepartmentAttritionChart = ({ employees }: DepartmentAttritionChartProps) 
         departments[department] = { total: 0, left: 0 };
       }
       departments[department].total += 1;
-      if (employee.leave_date) {
-        departments[department].left += 1;
-      }
+      // Note: leave_date is not in current schema, so left count is 0
     });
     
     return Object.entries(departments)

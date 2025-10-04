@@ -161,10 +161,10 @@ const EmployeeProfile = () => {
             <CardContent className="pt-6">
               <div className="flex flex-col items-center">
                 <Avatar className="h-24 w-24 mb-4">
-                  <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${employee.first_name}${employee.last_name}`} />
-                  <AvatarFallback>{employee.first_name?.[0]}{employee.last_name?.[0]}</AvatarFallback>
+                  <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${employee.name}`} />
+                  <AvatarFallback>{employee.name?.[0]}{employee.name?.[1]}</AvatarFallback>
                 </Avatar>
-                <h2 className="text-2xl font-bold">{employee.first_name} {employee.last_name}</h2>
+                <h2 className="text-2xl font-bold">{employee.name}</h2>
                 <p className="text-muted-foreground">{employee.position || 'No position set'}</p>
                 <p className="text-muted-foreground">{employee.department || 'No department set'}</p>
 
@@ -180,10 +180,6 @@ const EmployeeProfile = () => {
                   <div className="flex items-center gap-2">
                     <Briefcase size={16} className="text-muted-foreground" />
                     <span className="text-sm">{employee.position || 'No position set'}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <DollarSign size={16} className="text-muted-foreground" />
-                    <span className="text-sm">{employee.salary ? `$${employee.salary.toLocaleString()}/year` : 'No salary set'}</span>
                   </div>
                 </div>
 

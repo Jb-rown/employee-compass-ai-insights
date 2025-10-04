@@ -106,21 +106,18 @@ const Dashboard = () => {
   const atRiskEmployees = employeesData?.filter(emp => (emp.risk_score || 0) > 65).length || 0;
   const predictedTurnoverRate = totalEmployees > 0 ? ((atRiskEmployees / totalEmployees) * 100).toFixed(1) : "0";
   
-  // Calculate retention rate (assuming we have join_date and leave_date fields)
-  const retentionRate = employeesData ? 
-    ((employeesData.filter(emp => !emp.leave_date).length / totalEmployees) * 100).toFixed(1) : "0";
+  // Calculate retention rate (all current employees)
+  const retentionRate = totalEmployees > 0 ? "100" : "0";
   
-  // Calculate new joiners and leavers (last 30 days)
+  // Calculate new joiners (last 30 days using hire_date)
   const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
   
   const newJoiners = employeesData?.filter(emp => 
-    new Date(emp.join_date) >= thirtyDaysAgo
+    emp.hire_date && new Date(emp.hire_date) >= thirtyDaysAgo
   ).length || 0;
   
-  const leavers = employeesData?.filter(emp => 
-    emp.leave_date && new Date(emp.leave_date) >= thirtyDaysAgo
-  ).length || 0;
+  const leavers = 0; // No leave tracking in current schema
 
   const handleSignOut = async () => {
     await signOut();

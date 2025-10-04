@@ -18,43 +18,71 @@ interface UserProfile {
   created_at: string;
 }
 
-// Mock data for user emails
-const mockUserEmails: Record<string, string> = {
-  'admin-user-id': 'admin@example.com',
-  'hr-user-id': 'hr@example.com',
-  'regular-user-id': 'user@example.com',
-};
-
 export function UserRoleManager() {
   const { user, isAdmin } = useAuth();
   const queryClient = useQueryClient();
-  const [selectedRole, setSelectedRole] = useState<'admin' | 'hr' | 'user'>('user');
 
   // Fetch all users with their roles
   const { data: users, isLoading, error } = useQuery<UserProfile[]>({
     queryKey: ['userProfiles'],
-    queryFn: async () => {
+    queryFn: async (): Promise<UserProfile[]> => {
       if (!isAdmin) return [];
       
-      // Get all profiles with their roles
-      const { data: profiles, error: profilesError } = await supabase
-        .from('profiles')
-        .select('id, role, created_at')
+      // Get all user roles with profile data
+      const { data: userRoles, error: rolesError } = await supabase
+        .from('user_roles')
+        .select(`
+          user_id,
+          role,
+          created_at
+        `)
         .order('created_at', { ascending: false });
       
-      if (profilesError) throw profilesError;
+      if (rolesError) throw rolesError;
       
-      // Map the data to our UserProfile interface with mock emails
-      return profiles.map(profile => ({
-        id: profile.id,
-        role: profile.role as 'admin' | 'hr' | 'user',
-        // Use mock email or generate a placeholder based on role
-        email: mockUserEmails[profile.id] || `${profile.role}@example.com`,
-        created_at: profile.created_at
-      }));
+      // Get profiles
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('id, first_name, last_name');
+        
+      // Get auth users for emails
+      const { data: { users: authUsers } } = await supabase.auth.admin.listUsers();
+      
+      const profileMap = new Map<string, any>();
+      profiles?.forEach(p => {
+        if (p.id) profileMap.set(p.id, p);
+      });
+      
+      const emailMap = new Map<string, string>();
+      authUsers?.forEach(u => {
+        if (u.id && u.email) emailMap.set(u.id, u.email);
+      });
+      
+      // Map to unique users (highest privilege role)
+      const userMap = new Map<string, UserProfile>();
+      
+      userRoles?.forEach(userRole => {
+        const existing = userMap.get(userRole.user_id);
+        const profile = profileMap.get(userRole.user_id);
+        
+        if (!existing || 
+            (userRole.role === 'admin') ||
+            (userRole.role === 'hr' && existing.role !== 'admin')) {
+          userMap.set(userRole.user_id, {
+            id: userRole.user_id,
+            role: userRole.role as 'admin' | 'hr' | 'user',
+            email: emailMap.get(userRole.user_id) || 'unknown@example.com',
+            first_name: profile?.first_name || null,
+            last_name: profile?.last_name || null,
+            created_at: userRole.created_at
+          });
+        }
+      });
+      
+      return Array.from(userMap.values());
     },
     enabled: !!isAdmin,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 
   // Update user role mutation
@@ -139,7 +167,7 @@ export function UserRoleManager() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Email</TableHead>
+              <TableHead>User</TableHead>
               <TableHead>Current Role</TableHead>
               <TableHead>Actions</TableHead>
               <TableHead>Created At</TableHead>
@@ -204,4 +232,4 @@ export function UserRoleManager() {
       </CardFooter>
     </Card>
   );
-} 
+}

@@ -60,14 +60,14 @@ const RecentUploads = ({ uploads, isLoading }: RecentUploadsProps) => {
         <TableBody>
           {uploads.map((upload) => (
             <TableRow key={upload.id}>
-              <TableCell className="font-medium">{upload.filename}</TableCell>
-              <TableCell>{upload.row_count}</TableCell>
+              <TableCell className="font-medium">{upload.file_name}</TableCell>
+              <TableCell>{upload.records_count || 0}</TableCell>
               <TableCell className="flex items-center">
                 {getStatusIcon(upload.status)}
                 <span className="ml-2 capitalize">{upload.status}</span>
               </TableCell>
               <TableCell>
-                {formatDistanceToNow(new Date(upload.created_at || ''), { addSuffix: true })}
+                {formatDistanceToNow(new Date(upload.upload_date || ''), { addSuffix: true })}
               </TableCell>
             </TableRow>
           ))}

@@ -47,7 +47,7 @@ const EmployeeRiskTable = ({ employees, isLoading }: EmployeeRiskTableProps) => 
             sortedEmployees.map((employee) => (
               <TableRow key={employee.id}>
                 <TableCell className="font-medium">
-                  {employee.first_name} {employee.last_name}
+                  {employee.name}
                 </TableCell>
                 <TableCell>{employee.department || 'N/A'}</TableCell>
                 <TableCell>

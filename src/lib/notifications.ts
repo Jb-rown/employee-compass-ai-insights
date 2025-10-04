@@ -30,7 +30,7 @@ export async function createNotification(
     return null;
   }
 
-  return data;
+  return data as unknown as Notification;
 }
 
 /**
@@ -79,7 +79,7 @@ export async function createAuditLog(
     return null;
   }
 
-  return data;
+  return data as unknown as AuditLog;
 }
 
 /**

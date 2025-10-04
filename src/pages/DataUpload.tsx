@@ -57,10 +57,11 @@ const DataUpload = () => {
         .from('data_uploads')
         .insert({
           user_id: user.id,
-          filename: file.name,
-          row_count: Math.floor(Math.random() * 100) + 10, // Mock row count
+          file_name: file.name,
+          file_size: file.size,
+          records_count: Math.floor(Math.random() * 100) + 10, // Mock row count
           status: 'completed'
-        } as UploadType);
+        });
       
       if (error) throw error;
       

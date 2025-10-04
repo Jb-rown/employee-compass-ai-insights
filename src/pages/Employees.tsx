@@ -57,8 +57,7 @@ const Employees = () => {
   const filteredEmployees = useMemo(() => {
     return employees.filter((emp) => {
       const matchesSearch = 
-        emp.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        emp.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        emp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (emp.department && emp.department.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (emp.position && emp.position.toLowerCase().includes(searchTerm.toLowerCase()));
 
@@ -139,17 +138,15 @@ const Employees = () => {
   const handleAddEmployee = async (newEmployee: Partial<Employee>) => {
     try {
       // Ensure required fields are present
-      if (!newEmployee.first_name || !newEmployee.last_name) {
-        throw new Error("First name and last name are required");
+      if (!newEmployee.name) {
+        throw new Error("Name is required");
       }
       
       const { data, error } = await supabase
         .from('employees')
         .insert({
           ...newEmployee,
-          user_id: user!.id,
-          first_name: newEmployee.first_name,
-          last_name: newEmployee.last_name
+          user_id: user!.id
         })
         .select();
         
@@ -318,7 +315,7 @@ const Employees = () => {
                       {paginatedEmployees.map((employee) => (
                         <TableRow key={employee.id}>
                           <TableCell className="font-medium">
-                            <div>{employee.first_name} {employee.last_name}</div>
+                            <div>{employee.name}</div>
                             <div className="text-sm text-muted-foreground">ID: {employee.id}</div>
                           </TableCell>
                           <TableCell>{employee.department || "—"}</TableCell>

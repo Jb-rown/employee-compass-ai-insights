@@ -19,16 +19,18 @@ const RetentionTrendsChart = ({ employees }: RetentionTrendsChartProps) => {
       const monthStart = new Date(date.getFullYear(), date.getMonth(), 1);
       const monthEnd = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
-      // Calculate employees who joined before this month and haven't left
+      // Calculate employees hired before this month (using hire_date)
       const activeEmployees = employees.filter(emp => {
-        const joinDate = new Date(emp.join_date);
-        return joinDate <= monthEnd && (!emp.leave_date || new Date(emp.leave_date) > monthStart);
+        if (!emp.hire_date) return false;
+        const hireDate = new Date(emp.hire_date);
+        return hireDate <= monthEnd;
       }).length;
 
-      // Calculate total employees who joined before this month
-      const totalEmployees = employees.filter(emp => 
-        new Date(emp.join_date) <= monthEnd
-      ).length;
+      // Calculate total employees hired before this month
+      const totalEmployees = employees.filter(emp => {
+        if (!emp.hire_date) return false;
+        return new Date(emp.hire_date) <= monthEnd;
+      }).length;
 
       const retentionRate = totalEmployees > 0 
         ? (activeEmployees / totalEmployees) * 100 
