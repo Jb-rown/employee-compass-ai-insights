@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Bell } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '../lib/supabase';
 import { getUnreadNotificationsCount } from '../lib/notifications';
 
 interface NotificationBadgeProps {
